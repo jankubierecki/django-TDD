@@ -3,6 +3,8 @@ from django.urls import resolve
 from lists.views import home_page
 from django.http import HttpRequest
 
+from django.template.loader import render_to_string
+
 
 class HomePageTestCase(TestCase):
 
@@ -19,11 +21,10 @@ class HomePageTestCase(TestCase):
 
         # Given
         request = HttpRequest()
-
-        # When
         response = home_page(request)
 
+        # When
+        result_html = render_to_string('home.html')
+
         # Then
-        self.assertTrue(response.content.startswith(b'<html>'))
-        self.assertIn(b'<title>TODO Lists</title>', response.content)
-        self.assertTrue(response.content.endswith(b'</html>'))
+        self.assertTrue(response.content.strip().endswith(b'</html>'))
