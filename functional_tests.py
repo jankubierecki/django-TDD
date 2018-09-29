@@ -12,6 +12,12 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
+    def check_if_row_in_table(self, row_text):
+        table = self.browser.find_element_by_id('id_list_table')
+        rows = table.find_elements_by_tag_name('tr')
+
+        self.assertIn(row_text, [row.text for row in rows])
+
     def test_can_start_list_and_retieve_later(self):
 
         # user wants to play with todoapp so he is heading to main page
@@ -36,19 +42,20 @@ class NewVisitorTest(unittest.TestCase):
         # after user pressed enter button, the list got updated and now it contains the above user's thing to do
         input_box.send_keys(Keys.ENTER)
 
-        import time
-        time.sleep(3)
-
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = self.browser.find_elements_by_tag_name('tr')
-
-        self.assertIn('1. buy Peacock feathers', [row.text for row in rows])
+        self.check_if_row_in_table('1. buy Peacock feathers')
 
         # on the main page there is still text area field that can accept another user's thing to do
         # the user wrote 'use peacock feathers as a component of a bait recipie' as a next thing do to in the text area
-        self.fail('Test has ended')
+        input_box = self.browser.find_element_by_id('id_new_item')
+        input_box.send_keys(
+            'use peacock feathers as a component of a bait recipie')
+        input_box.send_keys(Keys.ENTER)
+
+        self.check_if_row_in_table(
+            '2. use peacock feathers as a component of a bait recipie')
 
         # the page has been updated again, and now it displays two user's works
+        self.fail('Test has ended')
 
         # the user has wondered if the list is capable of remembering his list. The user noticed the unique generated URL adress next to which is a text with explanation
 
