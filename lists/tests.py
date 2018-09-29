@@ -1,6 +1,6 @@
 from django.test import TestCase
-from django.urls import resolve
 from lists.views import home_page
+from django.core.urlresolvers import resolve
 from django.http import HttpRequest
 
 from django.template.loader import render_to_string
@@ -9,7 +9,6 @@ from django.template.loader import render_to_string
 class HomePageTestCase(TestCase):
 
     def test_root_url_resolves_home_page(self):
-        """ tests url  main page routing """
 
         # When
         found = resolve('/')
@@ -21,10 +20,30 @@ class HomePageTestCase(TestCase):
 
         # Given
         request = HttpRequest()
-        response = home_page(request)
 
         # When
-        result_html = render_to_string('home.html')
+        response = home_page(request)
+        expected_html = render_to_string('home.html', request=request)
 
         # Then
-        self.assertTrue(response.content.strip().endswith(b'</html>'))
+        self.assertEqual(response.content.decode(), expected_html)
+
+    def test_home_page_handles_POST_request(self):
+
+        # Given
+        request = HttpRequest()
+        request.method = 'POST'
+        request.POST['new_item'] = 'New list element'
+
+        # When
+        response = home_page(request)
+
+        expected_html = render_to_string(
+            'home.html',
+            {'new_item_text': 'New list element'},
+            request=request
+        )
+
+        # Then
+        self.assertIn('New list element', response.content.decode())
+        self.assertEqual(response.content.decode(), expected_html)

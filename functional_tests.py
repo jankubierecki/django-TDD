@@ -36,13 +36,13 @@ class NewVisitorTest(unittest.TestCase):
         # after user pressed enter button, the list got updated and now it contains the above user's thing to do
         input_box.send_keys(Keys.ENTER)
 
+        import time
+        time.sleep(3)
+
         table = self.browser.find_element_by_id('id_list_table')
         rows = self.browser.find_elements_by_tag_name('tr')
 
-        self.assertTrue(
-            any(row.text == '1. buy Peacock feathers' for row in rows),
-            'New element is not in the table.'
-        )
+        self.assertIn('1. buy Peacock feathers', [row.text for row in rows])
 
         # on the main page there is still text area field that can accept another user's thing to do
         # the user wrote 'use peacock feathers as a component of a bait recipie' as a next thing do to in the text area
