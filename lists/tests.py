@@ -40,15 +40,19 @@ class HomePageTestCase(TestCase):
         # When
         response = home_page(request)
 
-        expected_html = render_to_string(
-            'home.html',
-            {'new_item_text': 'New list element'},
-            request=request
-        )
+        new_item = Item.objects.first()
 
         # Then
-        self.assertIn('New list element', response.content.decode())
-        self.assertEqual(response.content.decode(), expected_html)
+        self.assertEqual(Item.objects.count(), 1)
+        self.assertEqual(new_item.text, 'New list element')
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/')
+
+    def test_home_page_only_saves_when_necessary(self):
+        request = HttpRequest()
+        home_page(request)
+        self.assertEqual(Item.objects.count(), 0)
 
 
 class ItemModelTestCase(TestCase):
