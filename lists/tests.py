@@ -101,3 +101,4 @@ class ItemModelTestCase(TestCase):
         self.assertEqual(saved_items.count(), 2)
         self.assertEqual(first_saved_item.text, 'First item in list')
         self.assertEqual(second_saved_item.text, 'Second item in list')
+
