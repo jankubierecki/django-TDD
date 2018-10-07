@@ -23,7 +23,7 @@ class NewVisitorTest(unittest.TestCase):
         # user wants to play with todoapp so he is heading to main page
         self.browser.get('http://localhost:8000')
 
-        # user has noticed that main page and header title has word 'Lists' 
+        # user has noticed that main page and header title has word 'Lists'
         # in its header
         self.assertIn('Lists', self.browser.title)
 
@@ -40,15 +40,15 @@ class NewVisitorTest(unittest.TestCase):
         # in the text area user has put 'buy Peacock feathers'
         input_box.send_keys('buy Peacock feathers')
 
-        # after user pressed enter button, the list got updated and now it 
+        # after user pressed enter button, the list got updated and now it
         # contains the above user's thing to do
         input_box.send_keys(Keys.ENTER)
 
-        self.check_if_row_in_table('1. buy Peacock feathers')
+        self.check_if_row_in_table('1: buy Peacock feathers')
 
-        # on the main page there is still text area field that can accept 
+        # on the main page there is still text area field that can accept
         # another user's thing to do
-        # the user wrote 'use peacock feathers as a component of a bait 
+        # the user wrote 'use peacock feathers as a component of a bait
         # recipie' as a next thing do to in the text area
         input_box = self.browser.find_element_by_id('id_new_item')
         input_box.send_keys(
@@ -56,16 +56,16 @@ class NewVisitorTest(unittest.TestCase):
         input_box.send_keys(Keys.ENTER)
 
         self.check_if_row_in_table(
-            '2. use peacock feathers as a component of a bait recipie')
+            '2: use peacock feathers as a component of a bait recipie')
 
         # the page has been updated again, and now it displays two user's works
         self.fail('Test has ended')
 
-        # the user has wondered if the list is capable of remembering his list. 
-        # The user noticed the unique generated URL adress next to which 
+        # the user has wondered if the list is capable of remembering his list.
+        # The user noticed the unique generated URL adress next to which
         # is a text with explanation
 
-        # user clicks the link and gets transformed to another page that 
+        # user clicks the link and gets transformed to another page that
         # displays his list
 
         # fully-satisfied user goes to bed
