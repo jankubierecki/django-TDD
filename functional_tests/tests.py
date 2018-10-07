@@ -30,7 +30,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         header_text = self.browser.find_element_by_tag_name('h1').text
 
-        self.assertIn('Lists', header_text)
+        self.assertIn('Lets create Your TODO list!', header_text)
 
         # user noticed text area field with placeholder
         input_box = self.browser.find_element_by_id('id_new_item')
@@ -58,17 +58,18 @@ class NewVisitorTest(LiveServerTestCase):
         input_box.send_keys(Keys.ENTER)
 
         # the page has been updated again, and now it displays two user's works
+        self.check_if_row_in_table('1: buy Peacock feathers')
+
         self.check_if_row_in_table(
             '2: use peacock feathers as a component of a bait recipie')
-        self.check_if_row_in_table('1: buy Peacock feathers')
 
         self.browser.quit()
         self.browser = webdriver.Chrome()
-        
+
         # another user visits main page
         # he does not see any possible traces left by first user
         self.browser.get(self.live_server_url)
-        
+
         page_text = self.browser.find_element_by_tag_name('body').text
 
         self.assertNotIn('use peacock feathers', page_text)
@@ -91,8 +92,3 @@ class NewVisitorTest(LiveServerTestCase):
         self.assertNotIn('use peacock feathers', page_text)
         self.assertNotIn('buy Peacock feathers', page_text)
         self.assertIn('buy milk', page_text)
-
-
-
-
-
