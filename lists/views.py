@@ -16,4 +16,4 @@ def view_list(request):
 
     return render(request, 'list.html', {'items': items})
 
-    #asdsad
+    
