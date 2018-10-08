@@ -30,36 +30,6 @@ class HomePageTestCase(TestCase):
         # Then
         self.assertEqual(response.content.decode(), expected_html)
 
-    def test_home_page_handles_POST_request(self):
-
-        # Given
-        request = HttpRequest()
-        request.method = 'POST'
-        request.POST['new_item'] = 'New list element'
-
-        # When
-        response = home_page(request)
-
-        new_item = Item.objects.first()
-
-        # Then
-        self.assertEqual(Item.objects.count(), 1)
-        self.assertEqual(new_item.text, 'New list element')
-
-    def test_home_page_redirects_after_POST(self):
-
-        # Given
-        request = HttpRequest()
-        request.method = 'POST'
-        request.POST['new_item'] = 'New list element'
-
-        # When
-        response = home_page(request)
-
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'],
-                         '/lists/the-only-list-in-the-world/')
-
     def test_home_page_only_saves_when_necessary(self):
         request = HttpRequest()
         home_page(request)
@@ -104,3 +74,28 @@ class ListViewTest(TestCase):
 
         self.assertContains(response, 'itemey 1')
         self.assertContains(response, 'itemey 2')
+
+
+class NewListTest(TestCase):
+    def test_saving_POST_request(self):
+
+        # When
+        self.client.post('/lists/new', data={'new_item': 'New list element'})
+
+        new_item = Item.objects.first()
+
+        # Then
+        self.assertEqual(Item.objects.count(), 1)
+        self.assertEqual(new_item.text, 'New list element')
+
+    def test_redirects_after_POST(self):
+
+        # When
+        response = self.client.post(
+            '/lists/new',
+            data={'new_item': 'New list element'}
+        )
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'],
+                         '/lists/the-only-list-in-the-world/')
