@@ -1,21 +1,15 @@
-<html>
+{% extends 'base.html' %}
 
-<head>
-    <title>TODO Lists</title>
-</head>
+{% block header_text %}Your TODO List!{% endblock %}
 
-<body>
-    <h1>Your unique TODO List!</h1>
-    <form method="POST" action="/lists/{{ list.id }}/add_item">
-        <input type="text" name="new_item" id="id_new_item" placeholder="Enter your task!">
-        {% csrf_token %}
-    </form>
+{% block form_action %}/lists/{{ list.id }}/add_item{% endblock %}
+
+{% block table %}
     <table id="id_list_table">
         {% for item in list.item_set.all %}
-        <tr><td> {{ forloop.counter }}: {{ item.text }}</td></tr>
+        <tr>
+            <td> {{ forloop.counter }}: {{ item.text }}</td>
+        </tr>
         {% endfor %}
-
     </table>
-</body>
-
-</html>
+{% endblock %}
