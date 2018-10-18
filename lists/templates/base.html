@@ -5,16 +5,17 @@
     <title>TODO Lists</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css", media="screen">
+    <link rel="stylesheet" href="/static/css/base.css" media="screen">
 </head>
 
 <body>
 
     <div class="container">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-6 col-md-offset-3 jumbotron">
             <div class="text-center">
                 <h1>{% block header_text %} {% endblock %}</h1>
                 <form method="POST" action="{% block form_action %} {% endblock %}">
-                    <input type="text" name="new_item" id="id_new_item" placeholder="Enter your task!">
+                    <input type="text" name="new_item" id="id_new_item" class="form-control input-lg" placeholder="Enter your task!">
                     {% csrf_token %}
                 </form>
             </div>
