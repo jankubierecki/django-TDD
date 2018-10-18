@@ -23,5 +23,4 @@ urlpatterns = [
     url(r'^(\d+)/add_item$',
         list_views.add_item_to_existing_list, name='add_item'),
     url(r'^new$', list_views.new_list, name='new_list'),
-
 ]

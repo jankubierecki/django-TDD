@@ -1,10 +1,9 @@
-from django.test import LiveServerTestCase
-
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 
     def setUp(self):
         self.browser = webdriver.Chrome()
@@ -30,7 +29,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         header_text = self.browser.find_element_by_tag_name('h1').text
 
-        self.assertIn('Lets create Your TODO list!', header_text)
+        self.assertIn('Lets Create Your TODO List!', header_text)
 
         # user noticed text area field with placeholder
         input_box = self.browser.find_element_by_id('id_new_item')
