@@ -1,4 +1,4 @@
 db.sqllite3
 __pycache__
 *.pyc
-venv
+.venv/
